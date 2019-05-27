@@ -75,13 +75,11 @@ api = Api(trips_api)
 
 api.add_resource(
     TripsList,
-    '/trips',
-    endpoint='trips'
+    '/trips'
 )
 api.add_resource(
     # Identifying the Trip class above
     Trip,
     # this variable will be passed into the functions above
-    '/trips/<int:id>',
-    endpoint='trip'
+    '/trips/<int:id>'
 )

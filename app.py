@@ -31,7 +31,6 @@ def after_request(response):
 # then function after is what happens after that request
 # to define method @app.route('/', method = "Post")
 @app.route('/')  # decorator
-# function to define at the route
 def index():
     return "testing testing"
 
