@@ -84,12 +84,18 @@ class Trip(Resource):
         )
         # Inheriting from Resource and calling its init method
         # allows us to use self :)
-        super(TripsList, self).__init__()
+        super().__init__()
 
-    # show route
-
+     # show route
+    @marshal_with(trip_fields)
     def get(self, id):
-        return jsonify({'name': 'Disneyland'})
+
+        try:
+            trip = models.Trip.get(models.Trip.id == id)
+        except models.Trip.DoesNotExist:
+            abort(404)
+        else:
+            return(trip, 200)
 
     # update route
     @marshal_with(trip_fields)

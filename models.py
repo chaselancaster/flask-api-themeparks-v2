@@ -10,8 +10,8 @@ class Trip(Model):
     name = CharField()
     park = CharField()
     date = DateField()
-    rides = CharField()
-    food = CharField()
+    # rides = CharField()
+    # food = CharField()
 
     class Meta:
         database = DATABASE
