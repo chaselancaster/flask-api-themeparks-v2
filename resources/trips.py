@@ -54,11 +54,41 @@ class TripsList(Resource):
         # **args turns the inputs from the form into string variables that can be passed to the create function
         trip = models.Trip.create(**args)
         print(trip, '<---', type(trip))
-        return trip
+        return (trip, 201)
 
 
 class Trip(Resource):
+
+    def __init__(self):
+        # setting up reqparse
+        self.reqparse = reqparse.RequestParser()
+        # requiring each to be true so that the user must input these
+        self.reqparse.add_argument(
+            'name',
+            required=True,
+            help='No name inputted',
+            location=['form', 'json']
+        )
+
+        self.reqparse.add_argument(
+            'park',
+            required=True,
+            help='No park selected',
+            location=['form', 'json']
+        )
+
+        self.reqparse.add_argument(
+            'date',
+            required=False,
+            help='No date inputted',
+            location=['form', 'json']
+        )
+        # Inheriting from Resource and calling its init method
+        # allows us to use self :)
+        super(TripsList, self).__init__()
+
     # show route
+
     def get(self, id):
         return jsonify({'name': 'Disneyland'})
 
@@ -66,9 +96,11 @@ class Trip(Resource):
     def put(self, id):
         # parsing args (get req.body)
         args = self.reqparse.parse_args()
+        # searching for the Trip that has the same model as we put in
         query = models.Trip.update(**args).where(models.Trip.id == id)
         # executing query
         query.execute()
+        print(query, '<--- this is the query')
         # the query doesn't respond with the updated object
         return (models.Trip.get(models.Trip.id == id), 200)
 
