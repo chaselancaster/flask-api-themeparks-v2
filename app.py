@@ -9,6 +9,7 @@ PORT = 8000
 app = Flask(__name__)
 
 # every route will start with /api/v1 in the blueprint
+# setting blueprint up to be used
 app.register_blueprint(trips_api, url_prefix='/api/v1')
 
 

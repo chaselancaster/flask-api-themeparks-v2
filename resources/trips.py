@@ -9,7 +9,7 @@ trip_fields = {
     'id': fields.Integer,
     'name': fields.String,
     'park': fields.String,
-    'date': fields.DateTime
+    # 'date': fields.DateTime
 }
 
 
@@ -45,13 +45,16 @@ class TripsList(Resource):
     def get(self):
         return jsonify({'trips': [{'name': 'Disneyland'}]})
 
+    # marshal is converting the model into a json object
+    @marshal_with(trip_fields)
     def post(self):
         # reading the args aka "req.body"
         args = self.reqparse.parse_args()
         print(args, '<--- args (req.body)')
         # **args turns the inputs from the form into string variables that can be passed to the create function
         trip = models.Trip.create(**args)
-        return jsonify({'trips': [{'name': 'Universal Studios'}]})
+        print(trip, '<---', type(trip))
+        return trip
 
 
 class Trip(Resource):
@@ -61,7 +64,13 @@ class Trip(Resource):
 
     # update route
     def put(self, id):
-        return jsonify({'name': 'Disneyland'})
+        # parsing args (get req.body)
+        args = self.reqparse.parse_args()
+        query = models.Trip.update(**args).where(models.Trip.id == id)
+        # executing query
+        query.execute()
+        # the query doesn't respond with the updated object
+        return (models.Trip.get(models.Trip.id == id), 200)
 
     # delete route
     def delete(self, id):
