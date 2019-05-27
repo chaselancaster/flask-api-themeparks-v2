@@ -58,7 +58,6 @@ class TripsList(Resource):
 
 
 class Trip(Resource):
-
     def __init__(self):
         # setting up reqparse
         self.reqparse = reqparse.RequestParser()
@@ -93,6 +92,7 @@ class Trip(Resource):
         return jsonify({'name': 'Disneyland'})
 
     # update route
+    @marshal_with(trip_fields)
     def put(self, id):
         # parsing args (get req.body)
         args = self.reqparse.parse_args()
