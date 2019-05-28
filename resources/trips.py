@@ -111,8 +111,11 @@ class Trip(Resource):
         return (models.Trip.get(models.Trip.id == id), 200)
 
     # delete route
+    # you have to execute the update and delete queries
     def delete(self, id):
-        return jsonify({'name': 'Disneyland'})
+        query = models.Trip.delete().where(models.Trip.id == id)
+        query.execute()
+        return {"message": "trip deleted"}
 
 
 # setting up module of view functions that can be attached to the flask app
