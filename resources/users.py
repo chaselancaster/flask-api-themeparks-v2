@@ -60,10 +60,45 @@ class UserList(Resource):
             }), 400)
 
 
+class User(Resource):
+    def __init__(self):
+        self.reqparse = reqparse.RequestParser()
+        self.reqparse.add_argument(
+            'username',
+            required=True,
+            help='No username provided',
+            location=['form', 'json']
+        )
+        self.reqparse.add_argument(
+            'email',
+            required=True,
+            help='No email provided',
+            location=['form', 'json']
+        )
+        self.reqparse.add_argument(
+            'password',
+            required=True,
+            help='No password provided',
+            location=['form', 'json']
+        )
+        self.reqparse.add_argument(
+            'verify_password',
+            required=True,
+            help='No password verification provided',
+            location=['form', 'json']
+        )
+        super().__init__()
+
+
 users_api = Blueprint('resources.users', __name__)
 api = Api(users_api)
 api.add_resource(
     UserList,
     '/users',
     endpoint='users'
+)
+api.add_resource(
+    User,
+    '/user',
+    endpoint='user'
 )
