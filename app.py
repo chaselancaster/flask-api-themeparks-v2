@@ -58,4 +58,4 @@ def index():
 if __name__ == '__main__':
     # starting the server
     models.initialize()
-    app.run(debug=DEBUG, port=PORT)
+    app.run(debug=config.DEBUG, port=config.PORT)

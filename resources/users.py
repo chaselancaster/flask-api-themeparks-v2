@@ -25,7 +25,7 @@ class UserList(Resource):
         self.reqparse.add_argument(
             'email',
             required=True,
-            help='No email provided'
+            help='No email provided',
             location=['form', 'json']
         )
         self.reqparse.add_argument(
