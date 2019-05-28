@@ -106,14 +106,25 @@ class User(Resource):
     @marshal_with(user_fields)
     def put(self, id):
         # parsing args (get req.body)
-        args = self.reqparse.parse_args()
+        try:
+            args = self.reqparse.parse_args()
+            print(args, '<-- these are the args')
         # searching for the User that has the same model as we put in
-        query = models.User.update(**args).where(models.User.id == id)
+            query = models.User.update(**args).where(models.User.id == id)
         # executing query
-        query.execute()
-        print(query, '<--- this is the query')
+            query.execute()
+            print(query, '<--- this is the query')
+        except models.User.DoesNotExist:
+            abort(404)
         # the query doesn't respond with the updated object
-        return (models.User.get(models.User.id == id), 200)
+        else:
+            return (models.User.get(models.User.id == id), 200)
+
+    # delete route
+    def delete(self, id):
+        query = models.User.delete().where(models.User.id == id)
+        query.execute()
+        return {"message": "User deleted"}
 
 
 users_api = Blueprint('resources.users', __name__)
