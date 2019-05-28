@@ -48,5 +48,5 @@ class Trip(Model):
 def initialize():
     DATABASE.connect()  # opening connection
     # this array is taking the model and creates tables that match them
-    DATABASE.create_tables([Trip], safe=True)
+    DATABASE.create_tables([Trip, User], safe=True)
     DATABASE.close()
