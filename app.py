@@ -1,3 +1,4 @@
+import config
 from flask import Flask, g
 import models
 
@@ -8,10 +9,19 @@ from flask_login import LoginManager
 # setting up login
 login_manager = LoginManager()
 
-DEBUG = True
-PORT = 8000
 
 app = Flask(__name__)
+app.secret_key = config.SECRET_KEY
+login_manager.init_app(app)
+
+
+@login_manager.user_loader
+def load_user(userid):
+    try:
+        return models.User.get(models.User.id == userid)
+    except models.DoesNotExist:
+        return None
+
 
 # every route will start with /api/v1 in the blueprint
 # setting blueprint up to be used
