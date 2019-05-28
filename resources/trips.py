@@ -42,9 +42,13 @@ class TripsList(Resource):
         # allows us to use self :)
         super(TripsList, self).__init__()
 
+    # to select all the trips -> models.Trip.select() -> look up peewee queries
+    # for generating response object -> look up marshal in flask
+    # get route
     def get(self):
-        return jsonify({'trips': [{'name': 'Disneyland'}]})
-
+        new_trips = [marshal(trip, trip_fields)
+                     for trip in models.Trip.select()]
+        return new_trips
     # marshal is converting the model into a json object
     @marshal_with(trip_fields)
     def post(self):
