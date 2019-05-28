@@ -9,6 +9,7 @@ from flask_login import login_user, logout_user, login_required, current_user
 import models
 
 user_fields = {
+    'id': fields.Integer,
     'username': fields.String,
 }
 
@@ -45,6 +46,7 @@ class UserList(Resource):
     def get(self):
         all_users = [marshal(user, user_fields)
                      for user in models.User.select()]
+        print(all_users, '<-- all users')
         return all_users
 
     def post(self):
@@ -89,16 +91,38 @@ class User(Resource):
         )
         super().__init__()
 
+    # show route
+    @marshal_with(user_fields)
+    def get(self, id):
+        try:
+            user = models.User.get(models.User.id == id)
+            print(user, '<-- this is the user')
+        except models.User.DoesNotExist:
+            abort(404)
+        else:
+            return(user, 200)
+
+    # update route
+    @marshal_with(user_fields)
+    def put(self, id):
+        # parsing args (get req.body)
+        args = self.reqparse.parse_args()
+        # searching for the User that has the same model as we put in
+        query = models.User.update(**args).where(models.User.id == id)
+        # executing query
+        query.execute()
+        print(query, '<--- this is the query')
+        # the query doesn't respond with the updated object
+        return (models.User.get(models.User.id == id), 200)
+
 
 users_api = Blueprint('resources.users', __name__)
 api = Api(users_api)
 api.add_resource(
     UserList,
-    '/users',
-    endpoint='users'
+    '/registration'
 )
 api.add_resource(
     User,
-    '/user',
-    endpoint='user'
+    '/<int:id>'
 )

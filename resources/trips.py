@@ -93,7 +93,6 @@ class Trip(Resource):
      # show route
     @marshal_with(trip_fields)
     def get(self, id):
-
         try:
             trip = models.Trip.get(models.Trip.id == id)
         except models.Trip.DoesNotExist:
