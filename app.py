@@ -28,7 +28,7 @@ CORS(users_api, origins=["http://localhost:3000"], supports_credentials=True)
 # every route will start with /api/v1 in the blueprint
 # setting blueprint up to be used
 app.register_blueprint(trips_api, url_prefix='/api/v1')
-app.register_blueprint(users_api, url_prefix='/api/v1')
+app.register_blueprint(users_api, url_prefix='/users')
 
 
 @app.before_request

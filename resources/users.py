@@ -42,6 +42,11 @@ class UserList(Resource):
         )
         super().__init__()
 
+    def get(self):
+        all_users = [marshal(user, user_fields)
+                     for user in models.User.select()]
+        return all_users
+
     def post(self):
         args = self.reqparse.parse_args()
         if args['password'] == args['verify_password']:
