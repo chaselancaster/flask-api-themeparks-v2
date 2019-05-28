@@ -1,7 +1,12 @@
 from flask import Flask, g
 import models
 
-from resources.trips import trips_api  # importing blueprint
+from resources.users import users_api  # importing blueprint
+from resources.trips import trips_api
+from flask_cors import CORS
+from flask_login import LoginManager
+# setting up login
+login_manager = LoginManager()
 
 DEBUG = True
 PORT = 8000
