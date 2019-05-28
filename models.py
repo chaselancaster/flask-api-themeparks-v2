@@ -18,6 +18,22 @@ class User(UserMixin, Model):
     class Meta:
         database = DATABASE
 
+    @classmethod
+    def create_user(cls, username, email, password, **kwargs):
+        email = email.lower()
+        try:
+            cls.select().where(
+                (cls.email == email)
+            ).get()
+        except cls.DoesNotExist:
+            user = cls(username=username, email=email)
+            user.password = generate_password_hash(password)
+
+            user.save()
+            return user
+        else:
+            raise Exception('User with that email already exists')
+
 
 class Trip(Model):
     name = CharField()
