@@ -10,6 +10,15 @@ import config
 DATABASE = SqliteDatabase('themeparks.sqlite')
 
 
+class User(UserMixin, Model):
+    username = CharField(unique=True)
+    email = CharField(unique=True)
+    password = CharField()
+
+    class Meta:
+        database = DATABASE
+
+
 class Trip(Model):
     name = CharField()
     park = CharField()
