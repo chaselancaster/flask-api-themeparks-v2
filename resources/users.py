@@ -53,3 +53,12 @@ class UserList(Resource):
             json.dumps({
                 'error': 'Password and password verification do not match'
             }), 400)
+
+
+users_api = Blueprint('resources.users', __name__)
+api = Api(users_api)
+api.add_resource(
+    UserList,
+    '/users',
+    endpoint='users'
+)
