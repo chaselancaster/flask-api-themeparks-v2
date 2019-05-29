@@ -5,7 +5,7 @@ import models
 from resources.users import users_api  # importing blueprint
 from resources.trips import trips_api
 from flask_cors import CORS
-from flask_login import LoginManager
+from flask_login import LoginManager, current_user
 # setting up login
 login_manager = LoginManager()
 
@@ -36,6 +36,8 @@ def before_request():
     '''Connect to the database before each request'''
     g.db = models.DATABASE
     g.db.connect()
+    # adding current user to global object so we can access it anywhere
+    g.user = current_user
 
 
 @app.after_request
