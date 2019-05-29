@@ -3,10 +3,10 @@ import datetime
 # Giving model ability to talk to postgres sql
 from peewee import *
 from flask_bcrypt import generate_password_hash
-from flask_login import UserMixin
+from flask_login import UserMixin, current_user, login_required
 
 
-DATABASE = SqliteDatabase('themeparks.sqlite')
+DATABASE = SqliteDatabase('amusementpark.sqlite')
 
 
 class User(UserMixin, Model):
@@ -18,7 +18,7 @@ class User(UserMixin, Model):
         database = DATABASE
 
     @classmethod
-    def create_user(cls, username, email, password, **kwargs):
+    def create_user(cls, username, email, password, verify_password, **kwargs):
         email = email.lower()
         try:
             cls.select().where(

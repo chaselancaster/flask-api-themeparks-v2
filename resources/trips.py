@@ -1,7 +1,7 @@
 from flask import jsonify, Blueprint, abort
 from flask_restful import (Resource, Api, reqparse, fields,
                            marshal, marshal_with, url_for)
-
+from flask_login import login_required, current_user
 import models
 
 # defining the fields we want on the responses
