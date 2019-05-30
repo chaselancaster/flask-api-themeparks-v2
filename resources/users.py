@@ -180,11 +180,9 @@ class Login(Resource):
                 }), 401)
 
 
-class Logout(Resource)
-
-
-@login_required
-def get(self):
+class Logout(Resource):
+    @login_required
+    def get(self):
         logout_user()
         print('user has logged out')
         return 'user has logged out'
