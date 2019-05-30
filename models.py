@@ -37,6 +37,7 @@ class User(UserMixin, Model):
 class Trip(Model):
     name = CharField()
     park = CharField()
+    userId = ForeignKeyField(User, related_name="userId")
     # date = DateField()
     # rides = CharField()
     # food = CharField()
