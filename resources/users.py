@@ -14,6 +14,13 @@ user_fields = {
     'password': fields.String
 }
 
+trip_fields = {
+    'id': fields.Integer,
+    'name': fields.String,
+    'park': fields.String,
+    'userId': fields.String
+}
+
 
 class UserList(Resource):
     def __init__(self):
@@ -94,15 +101,17 @@ class User(Resource):
         super().__init__()
 
     # show route
-    @marshal_with(user_fields)
+    @marshal_with(trip_fields)
     def get(self, id):
         try:
             user = models.User.get(models.User.id == id)
             print(user, '<-- this is the user')
+            trips = [marshal(trip, trip_fields)
+                     for trip in models.Trip.select().where(models.Trip.userId == user.id)]
         except models.User.DoesNotExist:
             abort(404)
         else:
-            return(user, 200)
+            return(trips, 200)
 
     # update route
     @marshal_with(user_fields)
@@ -171,6 +180,16 @@ class Login(Resource):
                 }), 401)
 
 
+class Logout(Resource)
+
+
+@login_required
+def get(self):
+        logout_user()
+        print('user has logged out')
+        return 'user has logged out'
+
+
 users_api = Blueprint('resources.users', __name__)
 api = Api(users_api)
 api.add_resource(
@@ -184,4 +203,8 @@ api.add_resource(
 api.add_resource(
     Login,
     '/login'
+)
+api.add_resource(
+    Logout,
+    '/logout'
 )

@@ -9,6 +9,7 @@ trip_fields = {
     'id': fields.Integer,
     'name': fields.String,
     'park': fields.String,
+    'userId': fields.String
     # 'date': fields.String
 }
 
@@ -31,13 +32,19 @@ class TripsList(Resource):
             help='No park selected',
             location=['form', 'json']
         )
-
         self.reqparse.add_argument(
-            'date',
+            'userId',
             required=False,
             help='No date inputted',
             location=['form', 'json']
         )
+
+        # self.reqparse.add_argument(
+        #     'date',
+        #     required=False,
+        #     help='No date inputted',
+        #     location=['form', 'json']
+        # )
         # Inheriting from Resource and calling its init method
         # allows us to use self :)
         super(TripsList, self).__init__()
