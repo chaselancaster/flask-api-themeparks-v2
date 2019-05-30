@@ -6,7 +6,7 @@ from flask_bcrypt import generate_password_hash
 from flask_login import UserMixin, current_user, login_required
 
 
-DATABASE = SqliteDatabase('amusementpark.sqlite')
+DATABASE = SqliteDatabase('parks.sqlite')
 
 
 class User(UserMixin, Model):
@@ -37,7 +37,7 @@ class User(UserMixin, Model):
 class Trip(Model):
     name = CharField()
     park = CharField()
-    date = DateField()
+    # date = DateField()
     # rides = CharField()
     # food = CharField()
 

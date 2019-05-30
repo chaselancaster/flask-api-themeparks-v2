@@ -9,7 +9,7 @@ trip_fields = {
     'id': fields.Integer,
     'name': fields.String,
     'park': fields.String,
-    # 'date': fields.DateTime
+    # 'date': fields.String
 }
 
 
